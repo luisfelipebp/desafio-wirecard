@@ -1,0 +1,66 @@
+<form (ngSubmit)="onSubmit()" #f="ngForm" method="post" id="form">
+
+  <mat-form-field>
+    <mat-label>Nome</mat-label>
+    <input matInput name="name" id="name" [formControl]="name" required="true" >
+    <mat-error *ngIf="name.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="name@example.com" [formControl]="email" required name="email" id="email">
+    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>CPF</mat-label>
+    <input matInput name="cpf" id="cpf" [formControl]="cpf" placeholder="000.000.000-00" required="true" >
+    <mat-error *ngIf="cpf.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Valor do pagamento</mat-label>
+    <input matInput name="amount" id="amount" [formControl]="amount" required="true">
+    <mat-error *ngIf="amount.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Método de pagamento</mat-label>
+    <mat-select [(ngModel)]="selectedPaymentMethod" [formControl]="paymentMethod" name="paymentMethod" id="paymentMethod" required="true">
+      <mat-option value="BOLETO">Boleto</mat-option>
+      <mat-option value="CARD">Cartão de crédito</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+
+  <ng-container *ngIf="selectedPaymentMethod === 'CARD'">
+    <mat-form-field appearance="fill">
+      <mat-label>Titular do cartão</mat-label>
+      <input matInput type="text" name="cardHolder" id="card-holder-name" [formControl]="cardHolder" required="true"/>
+      <mat-error *ngIf="cardHolder.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+<br>
+    <mat-form-field appearance="fill">
+      <mat-label>Número do cartão</mat-label>
+      <input matInput type="text" name="card-number" id="card-number" [formControl]="cardNumber" required="true"/>
+      <mat-error *ngIf="cardNumber.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+<br>
+    <mat-form-field appearance="fill">
+      <mat-label>Data de expiração do cartão</mat-label>
+      <input matInput type="text" name="card-expiration-date" id="card-expiration-date" [formControl]="cardExpiration" required="true"/>
+      <mat-error *ngIf="cardExpiration.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+<br>
+    <mat-form-field appearance="fill">
+      <mat-label>CVV do cartão</mat-label>
+      <input matInput type="number" name="card-cvv" id="card-cvv" [formControl]="cardCvv" required="true"/>
+      <mat-error *ngIf="cardCvv.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+</ng-container>
+<br>
+<button type="submit" mat-raised-button color="primary" >Finalizar</button>
+</form>
+
+
+
