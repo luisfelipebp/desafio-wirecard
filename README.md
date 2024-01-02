@@ -9,8 +9,8 @@ Este projeto é parte do desafio proposto pelo Wirecard para desenvolver uma API
 
 ### Tecnologias Utilizadas
 
-- **Front End:** Angular 17 foi utilizado para construir a interface do usuário.
-- **Back End:** A implementação do servidor e da lógica de processamento dos pagamentos foi realizada em Java com o auxílio do Spring Boot.
+- **Front End:** Foi utilizado Angular 17.
+- **Back End:** Foi utilizado Java com a ferramenta Spring Boot.
 
 ## Sobre o Desafio
 
