@@ -1,6 +1,4 @@
-#####################################################
 # Projeto de Processamento de Pagamentos             #
-#####################################################
 
 Este projeto oferece uma API para processamento de pagamentos, com endpoints que permitem criar e consultar pagamentos, clientes e compradores.
 
