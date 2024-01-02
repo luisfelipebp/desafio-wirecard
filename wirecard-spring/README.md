@@ -15,7 +15,7 @@ Este projeto oferece uma API para processamento de pagamentos, com endpoints que
 - Cria um novo pagamento no sistema.
 
 #### Formato da Requisição
-
+```
 {
   "amount": 100.00,
   "method": {
@@ -34,9 +34,9 @@ Este projeto oferece uma API para processamento de pagamentos, com endpoints que
         "cpf": "12345678911"
     }
 }
-
+```
 ou
-
+```
 {
   "amount": 100.00,
   "method": {
@@ -49,7 +49,7 @@ ou
         "cpf": "1232341214"
     }
 }
-
+````
 ### Endpoint `/client`
 
 #### GET `/client`
