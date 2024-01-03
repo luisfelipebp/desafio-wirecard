@@ -3,6 +3,7 @@ package com.luisfelipebp.wirecardspring.controller;
 import com.luisfelipebp.wirecardspring.model.DTO.PaymentDTO;
 import com.luisfelipebp.wirecardspring.model.Payment;
 import com.luisfelipebp.wirecardspring.service.PaymentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<Payment> finishPayment(@RequestBody PaymentDTO paymentDTO) throws Exception {
+    public ResponseEntity<Payment> finishPayment(@RequestBody @Valid PaymentDTO paymentDTO) throws Exception {
         return ResponseEntity.ok().body(paymentService.finishPayment(paymentDTO));
     }
 }
