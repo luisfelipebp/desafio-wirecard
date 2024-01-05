@@ -14,8 +14,9 @@
   <br>
   <mat-form-field>
     <mat-label>CPF</mat-label>
-    <input matInput name="cpf" id="cpf" [formControl]="cpf" placeholder="000.000.000-00" required="true" >
+    <input matInput name="cpf" #inputCvv minlength="11" maxlength="11" id="cpf" [formControl]="cpf" placeholder="000.000.000-00" required="true" >
     <mat-error *ngIf="cpf.invalid">{{getErrorMessage()}}</mat-error>
+    <mat-hint align="end">{{inputCvv.value.length}}/11</mat-hint>
   </mat-form-field>
   <br>
   <mat-form-field>
@@ -36,30 +37,34 @@
   <ng-container *ngIf="selectedPaymentMethod === 'CARD'">
     <mat-form-field appearance="fill">
       <mat-label>Titular do cartão</mat-label>
-      <input matInput type="text" name="cardHolder" id="card-holder-name" [formControl]="cardHolder" required="true"/>
+      <input matInput type="text" name="cardHolder" id="card-holder-name" [formControl]="cardHolder" />
       <mat-error *ngIf="cardHolder.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
 <br>
     <mat-form-field appearance="fill">
       <mat-label>Número do cartão</mat-label>
-      <input matInput type="text" name="card-number" id="card-number" [formControl]="cardNumber" required="true"/>
+      <input matInput type="text" name="card-number" id="card-number" [formControl]="cardNumber"/>
       <mat-error *ngIf="cardNumber.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
 <br>
     <mat-form-field appearance="fill">
       <mat-label>Data de expiração do cartão</mat-label>
-      <input matInput type="text" name="card-expiration-date" id="card-expiration-date" [formControl]="cardExpiration" required="true"/>
+      <input matInput type="text" name="card-expiration-date" id="card-expiration-date" placeholder="00/0000" [formControl]="cardExpiration"/>
       <mat-error *ngIf="cardExpiration.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
 <br>
     <mat-form-field appearance="fill">
       <mat-label>CVV do cartão</mat-label>
-      <input matInput type="number" name="card-cvv" id="card-cvv" [formControl]="cardCvv" required="true"/>
+      <input matInput #inputCvv minlength="3" maxlength="3"  name="card-cvv" id="card-cvv" [formControl]="cardCvv" />
+      <mat-hint align="end">{{inputCvv.value.length}}/3</mat-hint>
       <mat-error *ngIf="cardCvv.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field>
 </ng-container>
 <br>
+
 <button type="submit" mat-raised-button color="primary" >Finalizar</button>
+<p>{{ responsePayment }}</p>
+<p>{{responseExpiration}}</p>
 </form>
 
 

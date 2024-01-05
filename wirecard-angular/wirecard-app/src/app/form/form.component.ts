@@ -10,10 +10,11 @@ import {
   FormsModule,
   ReactiveFormsModule,
   NgForm,
+  FormBuilder,
 } from '@angular/forms';
 import { PaymentData } from '../models/payment-data';
 import { ApiPaymentService } from '../services/api-payment.service';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'form-component',
@@ -31,8 +32,9 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
   ],
 })
 export class FormComponent {
-  selectedPaymentMethod: string = 'boleto';
-  // cardHolderName: string = '';
+  selectedPaymentMethod: string = 'BOLETO';
+  responsePayment = '';
+  responseExpiration = '';
 
   paymentData = {} as PaymentData;
   paymentsData: PaymentData[] | undefined;
@@ -43,14 +45,17 @@ export class FormComponent {
   ]);
   email: any = new FormControl('', [Validators.required, Validators.email]);
   cpf: any = new FormControl('', [Validators.required, Validators.min(11)]);
-  amount: any = new FormControl('');
-  paymentMethod: any = new FormControl('');
-  cardHolder: any = new FormControl('');
-  cardNumber: any = new FormControl('');
-  cardExpiration: any = new FormControl('');
-  cardCvv: any = new FormControl('');
+  amount: any = new FormControl('', [Validators.required]);
+  paymentMethod: any = new FormControl('', [Validators.required]);
+  cardHolder: any = new FormControl('', [Validators.required]);
+  cardNumber: any = new FormControl('', [Validators.required]);
+  cardExpiration: any = new FormControl('', [Validators.required]);
+  cardCvv: any = new FormControl('', [Validators.required]);
 
-  constructor(private ApiPaymentService: ApiPaymentService) {}
+  constructor(
+    private ApiPaymentService: ApiPaymentService,
+    private snackBar: MatSnackBar
+  ) {}
 
   getPayments() {
     this.ApiPaymentService.getPayments().subscribe(
@@ -61,31 +66,57 @@ export class FormComponent {
   }
 
   onSubmit() {
-    this.paymentData = {
-      amount: this.amount.value,
-      method: {
-        method: this.paymentMethod.value,
-        card: {
-          holder: this.cardHolder.value,
-          number: this.cardNumber.value,
-          expirationCard: this.cardExpiration.value,
-          cvv: this.cardCvv.value,
+    if (this.paymentMethod.value == 'CARD') {
+      this.paymentData = {
+        amount: this.amount.value,
+        method: {
+          method: this.paymentMethod.value,
+          card: {
+            holder: this.cardHolder.value,
+            number: this.cardNumber.value,
+            expirationCard: this.cardExpiration.value,
+            cvv: this.cardCvv.value,
+          },
         },
-      },
-      client_id: 1,
-      buyer: {
-        name: this.name.value,
-        email: this.email.value,
-        cpf: this.cpf.value,
-      },
-    };
+        client_id: 1,
+        buyer: {
+          name: this.name.value,
+          email: this.email.value,
+          cpf: this.cpf.value,
+        },
+      };
+    }
+    if (this.paymentMethod.value == 'BOLETO') {
+      this.paymentData = {
+        amount: this.amount.value,
+        method: {
+          method: this.paymentMethod.value,
+        },
+        client_id: 1,
+        buyer: {
+          name: this.name.value,
+          email: this.email.value,
+          cpf: this.cpf.value,
+        },
+      };
+    }
     this.postPayments();
   }
 
   postPayments() {
-    this.ApiPaymentService.postPayment(this.paymentData).subscribe(() => {
-      console.log('sucesso');
-    });
+    this.ApiPaymentService.postPayment(this.paymentData).subscribe(
+      (response: any) => {
+        if (response.method && response.method.boleto) {
+          this.responsePayment =
+            'Código do boleto: ' + response.method.boleto.code;
+          this.responseExpiration =
+            'Expiração do boleto: ' + response.method.boleto.expirationBoleto;
+        } else if (response.method && response.method.card) {
+          this.responsePayment = 'Compra aprovada!';
+        }
+        this.openSnackBar('Pagamento realizado com sucesso!');
+      }
+    );
   }
 
   getErrorMessage() {
@@ -95,10 +126,9 @@ export class FormComponent {
     return 'Campo obrigatório';
   }
 
-  cleanForm(form: NgForm) {
-    console.log('foi');
-    this.getPayments();
-    form.resetForm();
-    this.paymentData = {} as PaymentData;
+  openSnackBar(message: string) {
+    this.snackBar.open(message, '', {
+      duration: 3000,
+    });
   }
 }

@@ -29,7 +29,7 @@ export class ApiPaymentService {
       .pipe(retry(2), catchError(this.handleError));
   }
 
-  postPayment(payment: PaymentData): Observable<PaymentData[]> {
+  postPayment(payment: Partial<PaymentData>): Observable<PaymentData[]> {
     return this.httpClient
       .post<PaymentData[]>(this.url, JSON.stringify(payment), this.httpOptions)
       .pipe(retry(2), catchError(this.handleError));
