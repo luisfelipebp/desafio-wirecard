@@ -1,10 +1,7 @@
 package com.luisfelipebp.wirecardspring.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +27,7 @@ public class Buyer {
     private String email;
 
     @NotBlank(message = "Usuário deve conter um cpf válido.")
+    @Size(min = 11, max = 11, message = "Cpf inválido.")
     private String cpf;
 
 }
