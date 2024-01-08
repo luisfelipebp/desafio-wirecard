@@ -11,7 +11,7 @@ import java.util.Random;
 @Service
 public class ValidatorPayment {
 
-    public void validatorCard(PaymentDTO paymentDTO){
+    public void validatorBoleto(PaymentDTO paymentDTO){
         int tamanhoNumero = 48;
         Random random = new Random();
         StringBuilder numeroAleatorio = new StringBuilder();
@@ -24,7 +24,7 @@ public class ValidatorPayment {
         paymentDTO.method().setBoleto(boleto);
     }
 
-    public void validatorBoleto(PaymentDTO paymentDTO) throws Exception {
+    public void validatorCard(PaymentDTO paymentDTO) throws Exception {
         if(!isValidNumberCreditCard(paymentDTO.method().getCard().getNumber())){
             throw new Exception("Cartão de crédito inválido");
         }

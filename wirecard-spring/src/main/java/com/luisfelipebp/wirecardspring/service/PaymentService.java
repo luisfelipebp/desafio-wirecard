@@ -26,11 +26,11 @@ public class PaymentService {
 
     public Payment finishPayment(PaymentDTO paymentDTO) throws Exception {
         if(paymentDTO.method().getMethod().equals(MethodPayment.BOLETO)){
-            validatorPayment.validatorCard(paymentDTO);
+            validatorPayment.validatorBoleto(paymentDTO);
         }
 
         if(paymentDTO.method().getMethod().equals(MethodPayment.CARD)){
-           validatorPayment.validatorBoleto(paymentDTO);
+           validatorPayment.validatorCard(paymentDTO);
         }
 
         Payment newPayment = new Payment(paymentDTO);
